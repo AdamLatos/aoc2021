@@ -4,8 +4,7 @@ use std::fs;
 fn day_1_1(input: &str) -> u64 {
     let mut last_num = 0;
     let mut cnt = 0;
-    for num in input.split_whitespace().map(|num| num.parse::<u64>()) {
-        let num = num.unwrap();
+    for num in input.split_whitespace().map(|num| num.parse::<u64>().unwrap()) {
         if last_num == 0 {
             last_num = num;
             continue;
@@ -17,6 +16,25 @@ fn day_1_1(input: &str) -> u64 {
     }
     return cnt;
 }
+
+fn day_1_2(input: &str) -> u64 {
+    let mut last_triple_sum = 0;
+    let mut cnt = 0;
+    let input : Vec<u64> = input.split_whitespace().map(|num| num.parse::<u64>().unwrap()).collect();
+    for triple in input.windows(3) {
+        let triple_sum = triple.iter().sum();
+        if last_triple_sum == 0 {
+            last_triple_sum = triple_sum;
+            continue;
+        }
+        if triple_sum > last_triple_sum {
+            cnt += 1;
+        }
+        last_triple_sum = triple_sum;
+    }
+    return cnt;
+}
+
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -32,7 +50,7 @@ fn main() {
 
 fn run_day(day: usize) {
 
-    let day_funcs: Vec<fn(&str)->u64> = vec![day_1_1];
+    let day_funcs: Vec<fn(&str)->u64> = vec![day_1_1, day_1_2];
     let input = fs::read_to_string(&format!("inputs/day_{:02}.txt", day));
     if input.is_err() {
         return;
@@ -77,5 +95,8 @@ mod tests {
             263";
         let ans_1 = super::day_1_1(input);
         assert_eq!(ans_1, 7);
+
+        let ans_2 = super::day_1_2(input);
+        assert_eq!(ans_2, 5);
     }
 }
