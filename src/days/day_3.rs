@@ -27,3 +27,62 @@ pub fn day_3_1(input: &str) -> u64 {
 
     return gamma * epsilon;
 }
+
+pub fn day_3_2(input: &str) -> u64 {
+
+
+    let mut input_vec : Vec<&str> = input.split_whitespace().collect();
+    let mut current_bit = 0;
+
+    // first calculate oxygen generator rating:
+    while input_vec.len() > 1 {
+        let res = most_common_in_bit(&input_vec, current_bit);
+        let keep_char = match res {
+            '0' => '0',
+            _ => '1',
+        };
+        input_vec.retain(|&num| num.as_bytes()[current_bit] as char == keep_char);
+        current_bit += 1;
+    }
+    println!("Last: {}", input_vec[0]);
+    let oxygen_generator_rating = u64::from_str_radix(&input_vec[0], 2).unwrap();
+
+    let mut input_vec : Vec<&str> = input.split_whitespace().collect();
+    let mut current_bit = 0;
+
+    // first calculate oxygen generator rating:
+    while input_vec.len() > 1 {
+        let res = most_common_in_bit(&input_vec, current_bit);
+        let keep_char = match res {
+            '0' => '1',
+            _ => '0',
+        };
+        input_vec.retain(|&num| num.as_bytes()[current_bit] as char == keep_char);
+        current_bit += 1;
+    }
+    println!("Last: {}", input_vec[0]);
+    let co2_scrubber_rating = u64::from_str_radix(&input_vec[0], 2).unwrap();
+
+    return oxygen_generator_rating * co2_scrubber_rating;
+}
+
+fn most_common_in_bit(input: &Vec<&str>, bit: usize) -> char {
+
+    let mut one_counts = 0;
+    let mut zero_counts = 0;
+
+    for num in input {
+        match num.as_bytes()[bit] as char {
+            '0' => zero_counts += 1,
+            '1' => one_counts += 1,
+            _ => println!("Unexpected char"),
+        }
+    }
+    if zero_counts > one_counts {
+        return '0'
+    } else if zero_counts < one_counts {
+        return '1'
+    } else {
+        return '='
+    }
+}
