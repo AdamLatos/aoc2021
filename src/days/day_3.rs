@@ -30,27 +30,28 @@ pub fn day_3_1(input: &str) -> u64 {
 
 pub fn day_3_2(input: &str) -> u64 {
 
-
+    // first calculate oxygen generator rating:
     let mut input_vec : Vec<&str> = input.split_whitespace().collect();
     let mut current_bit = 0;
 
-    // first calculate oxygen generator rating:
     while input_vec.len() > 1 {
         let res = most_common_in_bit(&input_vec, current_bit);
         let keep_char = match res {
             '0' => '0',
             _ => '1',
         };
+        // prune numbers which dont pass the criteria:
         input_vec.retain(|&num| num.as_bytes()[current_bit] as char == keep_char);
+        // advance to next bit:
         current_bit += 1;
     }
-    println!("Last: {}", input_vec[0]);
     let oxygen_generator_rating = u64::from_str_radix(&input_vec[0], 2).unwrap();
 
+
+    // then similarly calculate CO2 scrubber rating:
     let mut input_vec : Vec<&str> = input.split_whitespace().collect();
     let mut current_bit = 0;
 
-    // first calculate oxygen generator rating:
     while input_vec.len() > 1 {
         let res = most_common_in_bit(&input_vec, current_bit);
         let keep_char = match res {
