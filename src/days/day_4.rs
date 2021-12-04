@@ -1,15 +1,10 @@
 pub fn day_4_1(input: &str) -> u64 {
-    let mut nums = input.lines().take(1);
-    let numbers : Vec<u64> = nums.next().unwrap().split(',').map(|n| n.parse().unwrap()).collect();
-
-    println!("Numbers: {:?}", numbers);
+    
+    let mut numbers = Vec::new();
+    load_numbers(input, &mut numbers);
 
     let mut boards : Vec<Bingo> = Vec::new();
-    for chunk in input.split_whitespace().skip(1).collect::<Vec<&str>>().chunks(25) {
-        println!("Chunk: {:?}", chunk);
-        let chunk: [u64; 25] = chunk.iter().map(|n| n.parse::<u64>().unwrap()).collect::<Vec<u64>>().try_into().unwrap();
-        boards.push(Bingo::fill(chunk));
-    }
+    load_boards(input, &mut boards);
 
     for num in numbers {
         for board in boards.iter_mut() {
@@ -23,7 +18,37 @@ pub fn day_4_1(input: &str) -> u64 {
 }
 
 pub fn day_4_2(input: &str) -> u64 {
+    
+    let mut numbers = Vec::new();
+    load_numbers(input, &mut numbers);
+
+    let mut boards : Vec<Bingo> = Vec::new();
+    load_boards(input, &mut boards);
+
+    for num in numbers {
+        for board in boards.iter_mut() {
+            board.mark(&num);
+        }
+        if boards.len() > 1 {
+            boards.retain(|board| board.check() == false);
+        }
+        if boards.len() == 1 && boards[0].check() == true {
+            return num * boards[0].sum_unmarked()
+        }
+    }
     0
+}
+
+fn load_numbers(input: &str, numbers: &mut Vec<u64>) {
+    let mut nums = input.lines().take(1);
+    numbers.extend(nums.next().unwrap().split(',').map(|n| n.parse::<u64>().unwrap()));
+}
+
+fn load_boards(input: &str, boards: &mut Vec<Bingo>) {
+    for chunk in input.split_whitespace().skip(1).collect::<Vec<&str>>().chunks(25) {
+        let chunk: [u64; 25] = chunk.iter().map(|n| n.parse::<u64>().unwrap()).collect::<Vec<u64>>().try_into().unwrap();
+        boards.push(Bingo::fill(chunk));
+    }
 }
 
 struct Bingo {
@@ -64,5 +89,14 @@ impl Bingo {
 
     pub fn sum_unmarked(&self) -> u64 {
         self.board.iter().enumerate().map(|(i, num)| if self.marked[i] == true {0} else {*num}).sum()
+    }
+
+    pub fn _print(&self) {
+        for i in 0..5 {
+            for j in 0..5 {
+                print!("{} ", self.marked[i+j*5]);
+            }
+            println!("");
+        }
     }
 }

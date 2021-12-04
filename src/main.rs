@@ -131,5 +131,8 @@ mod tests {
 
         let ans_1 = day_4_1(input);
         assert_eq!(ans_1, 4512);
+
+        let ans_2 = day_4_2(input);
+        assert_eq!(ans_2, 1924);
     }
 }
