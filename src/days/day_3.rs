@@ -1,9 +1,7 @@
 pub fn day_3_1(input: &str) -> u64 {
-    
     let len = input.split_whitespace().next().unwrap().len();
     let mut one_counts = vec![0; len];
     let mut zero_counts = vec![0; len];
-    
     for num in input.split_whitespace() {
         for (i, bit) in num.chars().enumerate() {
             match bit {
@@ -16,7 +14,7 @@ pub fn day_3_1(input: &str) -> u64 {
     let mut gamma_str = String::new();
     for i in 0..len {
         if zero_counts[i] > one_counts[i] {
-            gamma_str.push('0');            
+            gamma_str.push('0');
         } else {
             gamma_str.push('1');
         }
@@ -29,9 +27,8 @@ pub fn day_3_1(input: &str) -> u64 {
 }
 
 pub fn day_3_2(input: &str) -> u64 {
-
     // first calculate oxygen generator rating:
-    let mut input_vec : Vec<&str> = input.split_whitespace().collect();
+    let mut input_vec: Vec<&str> = input.split_whitespace().collect();
     let mut current_bit = 0;
 
     while input_vec.len() > 1 {
@@ -47,9 +44,8 @@ pub fn day_3_2(input: &str) -> u64 {
     }
     let oxygen_generator_rating = u64::from_str_radix(&input_vec[0], 2).unwrap();
 
-
     // then similarly calculate CO2 scrubber rating:
-    let mut input_vec : Vec<&str> = input.split_whitespace().collect();
+    let mut input_vec: Vec<&str> = input.split_whitespace().collect();
     let mut current_bit = 0;
 
     while input_vec.len() > 1 {
@@ -68,7 +64,6 @@ pub fn day_3_2(input: &str) -> u64 {
 }
 
 fn most_common_in_bit(input: &Vec<&str>, bit: usize) -> char {
-
     let mut one_counts = 0;
     let mut zero_counts = 0;
 
@@ -80,10 +75,10 @@ fn most_common_in_bit(input: &Vec<&str>, bit: usize) -> char {
         }
     }
     if zero_counts > one_counts {
-        return '0'
+        return '0';
     } else if zero_counts < one_counts {
-        return '1'
+        return '1';
     } else {
-        return '='
+        return '=';
     }
 }

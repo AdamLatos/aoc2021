@@ -9,16 +9,19 @@ fn main() {
     match args.len() {
         1 => run_all(),
         2 => {
-            let day = args[1].parse::<usize>().expect("Something went wrong parsing day number");
+            let day = args[1]
+                .parse::<usize>()
+                .expect("Something went wrong parsing day number");
             run_day(day);
-        },
+        }
         n => println!("Unexpected number of arguments: {}", n),
     }
 }
 
 fn run_day(day: usize) {
-
-    let day_funcs: Vec<fn(&str)->u64> = vec![day_1_1, day_1_2, day_2_1, day_2_2, day_3_1, day_3_2, day_4_1, day_4_2];
+    let day_funcs: Vec<fn(&str) -> u64> = vec![
+        day_1_1, day_1_2, day_2_1, day_2_2, day_3_1, day_3_2, day_4_1, day_4_2,
+    ];
     let input = fs::read_to_string(&format!("inputs/day_{:02}.txt", day));
     if input.is_err() {
         return;
@@ -27,16 +30,16 @@ fn run_day(day: usize) {
 
     match day {
         1..=25 => {
-            if day_funcs.len() >= day*2-1 {
-                let ans_1 = day_funcs[(day-1)*2](&input);
+            if day_funcs.len() >= day * 2 - 1 {
+                let ans_1 = day_funcs[(day - 1) * 2](&input);
                 println!("day {}_1:\n{}", day, ans_1);
             }
-            if day_funcs.len() >= day*2 {
-                let ans_2 = day_funcs[(day-1)*2+1](&input);
+            if day_funcs.len() >= day * 2 {
+                let ans_2 = day_funcs[(day - 1) * 2 + 1](&input);
                 println!("day {}_2:\n{}", day, ans_2);
             }
-        },
-        _ => println!("Day {} out of bounds", day)
+        }
+        _ => println!("Day {} out of bounds", day),
     }
 }
 
@@ -77,7 +80,6 @@ mod tests {
         up 3
         down 8
         forward 2";
-        
         let ans_1 = day_2_1(input);
         assert_eq!(ans_1, 150);
 
