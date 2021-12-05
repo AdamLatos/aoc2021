@@ -20,7 +20,7 @@ fn main() {
 
 fn run_day(day: usize) {
     let day_funcs: Vec<fn(&str) -> u64> = vec![
-        day_1_1, day_1_2, day_2_1, day_2_2, day_3_1, day_3_2, day_4_1, day_4_2,
+        day_1_1, day_1_2, day_2_1, day_2_2, day_3_1, day_3_2, day_4_1, day_4_2, day_5_1, day_5_2
     ];
     let input = fs::read_to_string(&format!("inputs/day_{:02}.txt", day));
     if input.is_err() {
@@ -136,5 +136,25 @@ mod tests {
 
         let ans_2 = day_4_2(input);
         assert_eq!(ans_2, 1924);
+    }
+
+    #[test]
+    fn test_day_5() {
+        let input = "0,9 -> 5,9
+        8,0 -> 0,8
+        9,4 -> 3,4
+        2,2 -> 2,1
+        7,0 -> 7,4
+        6,4 -> 2,0
+        0,9 -> 2,9
+        3,4 -> 1,4
+        0,0 -> 8,8
+        5,5 -> 8,2";
+
+        let ans_1 = day_5_1(input);
+        assert_eq!(ans_1, 5);
+
+        let ans_2 = day_5_2(input);
+        assert_eq!(ans_2, 12);
     }
 }
