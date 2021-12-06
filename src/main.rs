@@ -162,12 +162,12 @@ mod tests {
 
     #[test]
     fn test_day_6() {
-        let input = "";
+        let input = "3,4,3,1,2";
 
         let ans_1 = day_6_1(input);
-        assert_eq!(ans_1, 5);
+        assert_eq!(ans_1, 5934);
 
-        let ans_2 = day_6_2(input);
-        assert_eq!(ans_2, 12);
+        // let ans_2 = day_6_2(input);
+        // assert_eq!(ans_2, 0);
     }
 }
