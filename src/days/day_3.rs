@@ -57,7 +57,6 @@ pub fn day_3_2(input: &str) -> u64 {
         input_vec.retain(|&num| num.as_bytes()[current_bit] as char == keep_char);
         current_bit += 1;
     }
-    println!("Last: {}", input_vec[0]);
     let co2_scrubber_rating = u64::from_str_radix(&input_vec[0], 2).unwrap();
 
     return oxygen_generator_rating * co2_scrubber_rating;
