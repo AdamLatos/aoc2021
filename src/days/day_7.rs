@@ -53,7 +53,11 @@ fn fuel_cost_2(input: &Vec<u64>, position: u64) -> u64 {
     let fuel_cost = input
         .iter()
         .map(|&x| abs_diff(x, position))
-        .map(|x| (1+x)*(x/2) + (if x%2 != 0 {x/2+1} else {0})  )
+        .map(|x| sum_til_n(x))
         .sum();
     fuel_cost
+}
+
+fn sum_til_n(n: u64) -> u64 {
+    (n * (n + 1)) / 2
 }
