@@ -167,7 +167,19 @@ mod tests {
         let ans_1 = day_6_1(input);
         assert_eq!(ans_1, 5934);
 
-        // let ans_2 = day_6_2(input);
-        // assert_eq!(ans_2, 0);
+        let ans_2 = day_6_2(input);
+        assert_eq!(ans_2, 26984457539);
+    }
+
+    #[test]
+    fn test_day_7() {
+        let input = "16,1,2,0,4,2,7,1,2,14";
+
+        let ans_1 = day_7_1(input);
+        assert_eq!(ans_1, 37);
+
+        let ans_2 = day_7_2(input);
+        assert_eq!(ans_2, 168);
+
     }
 }
