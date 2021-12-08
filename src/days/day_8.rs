@@ -4,7 +4,10 @@ pub fn day_8_1(input: &str) -> u64 {
     let mut instances = 0;
     for line in input.lines() {
         let digits: Vec<&str> = line.split_whitespace().skip(11).take(4).collect();
-        instances += digits.iter().filter(|x| x.len() == 2 || x.len() == 4 || x.len() == 3 || x.len() == 7).count();
+        instances += digits
+            .iter()
+            .filter(|x| x.len() == 2 || x.len() == 4 || x.len() == 3 || x.len() == 7)
+            .count();
     }
     instances as u64
 }
@@ -37,7 +40,6 @@ pub fn day_8_1(input: &str) -> u64 {
 // g: 7
 
 pub fn day_8_2(input: &str) -> u64 {
-
     let mut sum = 0;
 
     for line in input.lines() {
@@ -58,67 +60,25 @@ pub fn day_8_2(input: &str) -> u64 {
             }
         }
         // insert mapping for known elements
-        for (&k,&v) in segment_counts.iter() {
+        for (&k, &v) in segment_counts.iter() {
             match v {
-                4 => {char_mapping.insert(k, 'e');},
-                6 => {char_mapping.insert(k, 'b');},
-                9 => {char_mapping.insert(k, 'f');},
-                _ => {},
+                4 => char_mapping.insert(k, 'e'),
+                6 => char_mapping.insert(k, 'b'),
+                9 => char_mapping.insert(k, 'f'),
+                _ => None
             };
         }
         // we know e, b, f.
         // now we can deduce c from 1 (len 2), then a from 7 (len 3), d from 4 (len 4), g from 8 (len 7)
-        for pattern in &patterns {
-            if pattern.len() != 2 {
-                continue;
-            }
-            let mut c_char = ' ';
-            for c in pattern.chars() {
-                if !char_mapping.contains_key(&c) {
-                    c_char = c;
-                    break;
-                }
-            }
-            char_mapping.insert(c_char, 'c');
-        }
-        for pattern in &patterns {
-            if pattern.len() != 3 {
-                continue;
-            }
-            let mut a_char = ' ';
-            for c in pattern.chars() {
-                if !char_mapping.contains_key(&c) {
-                    a_char = c;
-                    break;
-                }
-            }
-            char_mapping.insert(a_char, 'a');
-        }
-        for pattern in &patterns {
-            if pattern.len() != 4 {
-                continue;
-            }
-            let mut d_char = ' ';
-            for c in pattern.chars() {
-                if !char_mapping.contains_key(&c) {
-                    d_char = c;
-                    break;
-                }
-            }
-            char_mapping.insert(d_char, 'd');
-        }
-        for pattern in &patterns {
-            if pattern.len() != 7 {
-                continue;
-            }
-            let mut g_char = ' ';
-            for c in pattern.chars() {
-                if !char_mapping.contains_key(&c) {
-                    g_char = c;
-                    break;
-                }
-            }
-            char_mapping.insert(g_char, 'g');
+        for (sig, p_len) in [('c', 2), ('a', 3), ('d', 4), ('g', 7)] {
+            let pattern = patterns.iter().find(|x| x.len() == p_len).unwrap();
+            char_mapping.insert(
+                pattern
+                    .chars()
+                    .find(|c| !char_mapping.contains_key(&c))
+                    .unwrap(),
+                sig,
+            );
         }
 
         // we have the mapping, now need to translate the numbers
@@ -133,18 +93,17 @@ pub fn day_8_2(input: &str) -> u64 {
 
 /// Translates an encoded 7seg pattern into a number based on a mapping of segment signals
 fn translate_num(map: &HashMap<char, char>, pattern: &str) -> u64 {
-
     let mut digit_signals: Vec<HashSet<char>> = Vec::new();
-    digit_signals.push(HashSet::from(['a','b','c','e','f','g']));
-    digit_signals.push(HashSet::from(['c','f']));
-    digit_signals.push(HashSet::from(['a','c','d','e','g']));
-    digit_signals.push(HashSet::from(['a','c','d','f','g']));
-    digit_signals.push(HashSet::from(['b','c','d','f']));
-    digit_signals.push(HashSet::from(['a','b','d','f','g']));
-    digit_signals.push(HashSet::from(['a','b','d','e','f','g']));
-    digit_signals.push(HashSet::from(['a','c','f']));
-    digit_signals.push(HashSet::from(['a','b','c','d','e','f','g']));
-    digit_signals.push(HashSet::from(['a','b','c','d','f','g']));
+    digit_signals.push(HashSet::from(['a', 'b', 'c', 'e', 'f', 'g']));
+    digit_signals.push(HashSet::from(['c', 'f']));
+    digit_signals.push(HashSet::from(['a', 'c', 'd', 'e', 'g']));
+    digit_signals.push(HashSet::from(['a', 'c', 'd', 'f', 'g']));
+    digit_signals.push(HashSet::from(['b', 'c', 'd', 'f']));
+    digit_signals.push(HashSet::from(['a', 'b', 'd', 'f', 'g']));
+    digit_signals.push(HashSet::from(['a', 'b', 'd', 'e', 'f', 'g']));
+    digit_signals.push(HashSet::from(['a', 'c', 'f']));
+    digit_signals.push(HashSet::from(['a', 'b', 'c', 'd', 'e', 'f', 'g']));
+    digit_signals.push(HashSet::from(['a', 'b', 'c', 'd', 'f', 'g']));
 
     let mut num_set: HashSet<char> = HashSet::new();
     num_set.extend(pattern.chars().map(|c| map.get(&c).unwrap()));
