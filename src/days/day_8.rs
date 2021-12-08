@@ -38,19 +38,6 @@ pub fn day_8_1(input: &str) -> u64 {
 
 pub fn day_8_2(input: &str) -> u64 {
 
-    let digit_signals: HashMap<u64, HashSet<char>> = HashMap::from([
-        (0, HashSet::from(['a','b','c','e','f','g'])),
-        (1, HashSet::from(['c','f'])),
-        (2, HashSet::from(['a','c','d','e','g'])),
-        (3, HashSet::from(['a','c','d','f','g'])),
-        (4, HashSet::from(['b','c','d','f'])),
-        (5, HashSet::from(['a','b','d','f','g'])),
-        (6, HashSet::from(['a','b','d','e','f','g'])),
-        (7, HashSet::from(['a','c','f'])),
-        (8, HashSet::from(['a','b','c','d','e','f','g'])),
-        (9, HashSet::from(['a','b','c','d','f','g'])),
-    ]);
-
     let mut sum = 0;
 
     for line in input.lines() {
@@ -137,20 +124,30 @@ pub fn day_8_2(input: &str) -> u64 {
         // we have the mapping, now need to translate the numbers
         let mut mult = 1000;
         for pattern in &digits {
-            let mut num_set: HashSet<char> = HashSet::new();
-            // println!("turning {:?}", pattern);
-            for c in pattern.chars() {
-                num_set.insert(*char_mapping.get(&c).unwrap());
-            }
-            // println!("into {:?}", num_set);
-            for (k, v) in &digit_signals {
-                if *v == num_set {
-                    // println!("{}", k);
-                    sum += k * mult;
-                    mult = mult / 10;
-                }
-            }
+            sum += translate_num(&char_mapping, pattern) * mult;
+            mult = mult / 10;
         }
     }
     sum
+}
+
+/// Translates an encoded 7seg pattern into a number based on a mapping of segment signals
+fn translate_num(map: &HashMap<char, char>, pattern: &str) -> u64 {
+
+    let mut digit_signals: Vec<HashSet<char>> = Vec::new();
+    digit_signals.push(HashSet::from(['a','b','c','e','f','g']));
+    digit_signals.push(HashSet::from(['c','f']));
+    digit_signals.push(HashSet::from(['a','c','d','e','g']));
+    digit_signals.push(HashSet::from(['a','c','d','f','g']));
+    digit_signals.push(HashSet::from(['b','c','d','f']));
+    digit_signals.push(HashSet::from(['a','b','d','f','g']));
+    digit_signals.push(HashSet::from(['a','b','d','e','f','g']));
+    digit_signals.push(HashSet::from(['a','c','f']));
+    digit_signals.push(HashSet::from(['a','b','c','d','e','f','g']));
+    digit_signals.push(HashSet::from(['a','b','c','d','f','g']));
+
+    let mut num_set: HashSet<char> = HashSet::new();
+    num_set.extend(pattern.chars().map(|c| map.get(&c).unwrap()));
+
+    return digit_signals.iter().position(|x| *x == num_set).unwrap() as u64;
 }
