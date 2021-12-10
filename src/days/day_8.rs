@@ -65,7 +65,7 @@ pub fn day_8_2(input: &str) -> u64 {
                 4 => char_mapping.insert(k, 'e'),
                 6 => char_mapping.insert(k, 'b'),
                 9 => char_mapping.insert(k, 'f'),
-                _ => None
+                _ => None,
             };
         }
         // we know e, b, f.
