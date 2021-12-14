@@ -270,7 +270,7 @@ mod tests {
         let ans_1 = day_12_1(input);
         assert_eq!(ans_1, 10);
 
-        // let ans_2 = day_11_2(input);
-        // assert_eq!(ans_2, 195);       
+        let ans_2 = day_12_2(input);
+        assert_eq!(ans_2, 36);       
     }
 }

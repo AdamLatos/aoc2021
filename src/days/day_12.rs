@@ -2,10 +2,7 @@ use std::collections::HashMap;
 
 pub fn day_12_1(input: &str) -> u64 {
     let mut cave_system = Map::new(input);
-    // println!("edges: {:?}", cave_system.edges);
-    // println!("nodes: {:?}", cave_system.node_types);
     let paths = cave_system.find_paths();
-    // println!("found paths: {:?}", paths);
     paths.len() as u64
 }
 
@@ -73,7 +70,6 @@ impl Map {
 
     fn find_paths(&mut self) -> Vec<Vec<&str>> {
         let mut paths = Vec::new();
-
         let mut current_paths = Vec::new();
         current_paths.push(vec!["start"]);
         loop {
@@ -82,9 +78,8 @@ impl Map {
             if paths_left == 0 {
                 break;
             }
-            for mut path in current_paths {
+            for path in current_paths {
                 let last_node = path.last().unwrap();
-                // println!("last node: {}", last_node);
                 for next in self.edges.get(&last_node as &str).unwrap() {
                     if (self.node_visited(&path, next) == true && self.node_types[next] == Node::Small) || self.node_types[next] == Node::Start {
                         continue;
@@ -103,8 +98,53 @@ impl Map {
         }
         paths
     }
+
+    fn find_paths_dup(&mut self) -> Vec<Vec<&str>> {
+        let mut paths = Vec::new();
+
+        let mut current_paths = Vec::new();
+        current_paths.push((vec!["start"], false));
+        loop {
+            let paths_left = current_paths.len();
+            let mut new_paths = Vec::new();
+            if paths_left == 0 {
+                break;
+            }
+            for path in current_paths {
+                let last_node = path.0.last().unwrap();
+                let has_duplicate = path.1;
+                // println!("last node: {}", last_node);
+                for next in self.edges.get(&last_node as &str).unwrap() {
+                    if self.node_types[next] == Node::Start {
+                        continue;
+                    } else if self.node_visited(&(path.0), next) == true && self.node_types[next] == Node::Small {
+                        if has_duplicate == true {
+                            continue;
+                        } else {
+                            let mut new_path = path.0.clone();
+                            new_path.push(next);
+                            new_paths.push((new_path, true));
+                        }
+                    } else if self.node_types[next] == Node::End {
+                        let mut end_path = path.0.clone();
+                        end_path.push(next);
+                        paths.push(end_path);
+                    } else {
+                        let mut new_path = path.0.clone();
+                        new_path.push(next);
+                        new_paths.push((new_path, has_duplicate));
+                    }
+                }
+            }
+            current_paths = new_paths;
+        }
+        paths
+    }
 }
 
-pub fn day_12_2(_input: &str) -> u64 {
-    0
+pub fn day_12_2(input: &str) -> u64 {
+    let mut cave_system = Map::new(input);
+    let paths = cave_system.find_paths_dup();
+    // println!("found paths: {:?}", paths);
+    paths.len() as u64
 }
