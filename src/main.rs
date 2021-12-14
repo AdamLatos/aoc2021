@@ -303,7 +303,7 @@ mod tests {
         let ans_1 = day_13_1(input);
         assert_eq!(ans_1, 17);
 
-        // let ans_2 = day_13_2(input);
-        // assert_eq!(ans_2, 36);
+        let ans_2 = day_13_2(input);
+        assert_eq!(ans_2, 0);
     }
 }
