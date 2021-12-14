@@ -22,7 +22,8 @@ fn run_day(day: usize) {
     let day_funcs: Vec<fn(&str) -> u64> = vec![
         day_1_1, day_1_2, day_2_1, day_2_2, day_3_1, day_3_2, day_4_1, day_4_2, day_5_1, day_5_2,
         day_6_1, day_6_2, day_7_1, day_7_2, day_8_1, day_8_2, day_9_1, day_9_2, day_10_1, day_10_2,
-        day_11_1, day_11_2, day_12_1, day_12_2,
+        day_11_1, day_11_2, day_12_1, day_12_2, day_13_1, day_13_2, day_14_1, day_14_2, day_15_1,
+        day_15_2, day_16_1, day_16_2, day_17_1, day_17_2, day_18_1, day_18_2,
     ];
     let input = fs::read_to_string(&format!("inputs/day_{:02}.txt", day));
     if input.is_err() {
@@ -184,7 +185,8 @@ mod tests {
 
     #[test]
     fn test_day_8() {
-        let input = "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
+        let input =
+            "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
         edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc
         fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg
         fbegcd cbd adcefb dageb afcb bc aefdc ecdab fgdeca fcdbega | efabcd cedba gadfec cb
@@ -254,7 +256,7 @@ mod tests {
         assert_eq!(ans_1, 1656);
 
         let ans_2 = day_11_2(input);
-        assert_eq!(ans_2, 195);       
+        assert_eq!(ans_2, 195);
     }
 
     #[test]
@@ -271,6 +273,37 @@ mod tests {
         assert_eq!(ans_1, 10);
 
         let ans_2 = day_12_2(input);
-        assert_eq!(ans_2, 36);       
+        assert_eq!(ans_2, 36);
+    }
+
+    #[test]
+    fn test_day_13() {
+        let input = "6,10
+        0,14
+        9,10
+        0,3
+        10,4
+        4,11
+        6,0
+        6,12
+        4,1
+        0,13
+        10,12
+        3,4
+        3,0
+        8,4
+        1,10
+        2,14
+        8,10
+        9,0
+        
+        fold along y=7
+        fold along x=5";
+
+        let ans_1 = day_13_1(input);
+        assert_eq!(ans_1, 17);
+
+        // let ans_2 = day_13_2(input);
+        // assert_eq!(ans_2, 36);
     }
 }
