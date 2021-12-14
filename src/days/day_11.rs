@@ -15,7 +15,6 @@ struct Octopi {
 }
 
 impl Octopi {
-
     fn new(input: &str) -> Self {
         Self {
             w_max: input.lines().next().unwrap().len(),
@@ -29,8 +28,7 @@ impl Octopi {
     }
 
     fn advance_step(&mut self) -> usize {
-
-        let mut flashed = vec![false; self.w_max*self.h_max];
+        let mut flashed = vec![false; self.w_max * self.h_max];
 
         for octopus in &mut self.map {
             *octopus += 1;
@@ -39,13 +37,12 @@ impl Octopi {
             let mut any_flashed = 0;
             for w in 0..self.w_max {
                 for h in 0..self.h_max {
-                    if self.get(w, h) > 9 && !flashed[w+self.w_max*h] {
+                    if self.get(w, h) > 9 && !flashed[w + self.w_max * h] {
                         any_flashed = 1;
-                        flashed[w+self.w_max*h] = true;
+                        flashed[w + self.w_max * h] = true;
                         let neighs = self.neighbors(w, h);
                         for (nw, nh) in neighs {
-                            if nw==0 && nh==6 {
-                            }
+                            if nw == 0 && nh == 6 {}
                             self.map[nw + self.w_max * nh] += 1;
                         }
                     }
@@ -53,11 +50,15 @@ impl Octopi {
             }
 
             if any_flashed == 0 {
-                for oc in &mut self.map {if *oc > 9 {*oc = 0}}
+                for oc in &mut self.map {
+                    if *oc > 9 {
+                        *oc = 0
+                    }
+                }
                 break;
             }
         }
-        flashed.iter().filter(|&&x| x==true).count()
+        flashed.iter().filter(|&&x| x == true).count()
     }
 
     fn get(&self, w: usize, h: usize) -> u8 {
@@ -76,8 +77,8 @@ impl Octopi {
 
     fn neighbors(&self, w: usize, h: usize) -> Vec<(usize, usize)> {
         let mut neighs = Vec::new();
-        for wi in [-1,0,1] {
-            for hi in [-1,0,1] {
+        for wi in [-1, 0, 1] {
+            for hi in [-1, 0, 1] {
                 if (wi == 0) && (hi == 0) {
                     continue;
                 }
@@ -100,7 +101,6 @@ impl Octopi {
     }
 }
 
-
 pub fn day_11_2(input: &str) -> u64 {
     let mut octopi = Octopi::new(input);
     let steps = 100000;
@@ -108,7 +108,7 @@ pub fn day_11_2(input: &str) -> u64 {
     for s in 1..=steps {
         let flashes = octopi.advance_step();
         if flashes == max_flashes {
-            return s as u64
+            return s as u64;
         }
     }
     0
