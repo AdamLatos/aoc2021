@@ -331,7 +331,7 @@ mod tests {
         let ans_1 = day_14_1(input);
         assert_eq!(ans_1, 1588);
 
-        // let ans_2 = day_14_2(input);
-        // assert_eq!(ans_2, 13);
+        let ans_2 = day_14_2(input);
+        assert_eq!(ans_2, 2188189693529);
     }
 }
