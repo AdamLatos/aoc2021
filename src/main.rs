@@ -334,4 +334,24 @@ mod tests {
         let ans_2 = day_14_2(input);
         assert_eq!(ans_2, 2188189693529);
     }
+
+    #[test]
+    fn test_day_15() {
+        let input = "1163751742
+        1381373672
+        2136511328
+        3694931569
+        7463417111
+        1319128137
+        1359912421
+        3125421639
+        1293138521
+        2311944581";
+
+        let ans_1 = day_15_1(input);
+        assert_eq!(ans_1, 40);
+
+        let ans_2 = day_15_2(input);
+        assert_eq!(ans_2, 315);
+    }
 }
