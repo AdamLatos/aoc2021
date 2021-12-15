@@ -94,7 +94,7 @@ pub fn day_14_2(input: &str) -> u64 {
 
     let steps = 40;
 
-    for s in 1..=steps {
+    for _s in 1..=steps {
         // first find the new polymers
         let mut reactions = pairs.clone();
         for (k, &mut v) in reactions.iter_mut() {
@@ -110,7 +110,7 @@ pub fn day_14_2(input: &str) -> u64 {
             let cnt = counts.get_mut(prod).unwrap();
             *cnt += v;
         }
-        println!("After step {}: {:?}", s, pairs);
+        // println!("After step {}: {:?}", _s, pairs);
     }
 
     let max = counts.values().max().unwrap();
