@@ -306,4 +306,32 @@ mod tests {
         let ans_2 = day_13_2(input);
         assert_eq!(ans_2, 0);
     }
+
+    #[test]
+    fn test_day_14() {
+        let input = "NNCB
+
+        CH -> B
+        HH -> N
+        CB -> H
+        NH -> C
+        HB -> C
+        HC -> B
+        HN -> C
+        NN -> C
+        BH -> H
+        NC -> B
+        NB -> B
+        BN -> B
+        BB -> N
+        BC -> B
+        CC -> N
+        CN -> C";
+
+        let ans_1 = day_14_1(input);
+        assert_eq!(ans_1, 1588);
+
+        // let ans_2 = day_14_2(input);
+        // assert_eq!(ans_2, 13);
+    }
 }
